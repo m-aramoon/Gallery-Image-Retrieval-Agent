@@ -1,4 +1,4 @@
-# Gallery Image Retrieval Agent
+# Gallery Image Retrieval Agent (GIRA)
 This system provides LLM-based image retrieval agent for your gallery, allowing you to find images using natural language queries. It operates in two main steps:  
 - Image Understanding (offline):  
 The system utilizes the Gemma Multimodal Model (Gemma 3:4b) to analyze and generate descriptive captions for each image in your gallery. These semantic captions are then stored in a searchable database for quick and accurate image retrieval.
