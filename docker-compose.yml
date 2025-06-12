@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  gemma:
+    image: ollama/ollama:latest
+    container_name: gemma
+    restart: always
+    volumes:
+      - ./ollama_volume:/root/.ollama  
+    ports:
+      - "11434:11434"
+    networks:
+      - ollama-net
+    post_start:
+      - command: ollama pull gemma3:4b 
+
+  jupyter:
+    build:
+      context: .                   
+      dockerfile: JupyterDockerfile
+    container_name: jupyter
+    restart: always
+    ports:
+      - "8888:8888"
+    volumes:
+      -  ./jupyter_volume:/home/notebooks  
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+    env_file: 
+      - ./API.env
+    networks:
+      - ollama-net
+    command: >
+      jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token=''
+
+volumes:
+  ollama_volume:
+  jupyter_volume:
+
+networks:
+  ollama-net:
+
+

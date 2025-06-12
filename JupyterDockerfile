@@ -1,0 +1,15 @@
+﻿FROM python:latest
+
+# Install JupyterLab and dependencies
+RUN pip install --no-cache-dir --upgrade pip jupyterlab requests pandas numpy pillow ipywidgets matplotlib
+
+
+
+# Expose JupyterLab port
+EXPOSE 8888
+
+# Set working directory
+#WORKDIR /home/jovyan
+
+# Start JupyterLab
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]
