@@ -21,8 +21,9 @@ When a user submits a natural language query (e.g., "pictures of a dog playing i
 1. Open jupyterlab on port 8888 of your computer
 2. go to foler home/notebooks/
 3. run `get_description.ipynb` and enter the address of your image folder the click on Get Descriptions.
-![get image folder](instruction_images/get_folder.png)
+![get image folder](Screenshots/get_folder.png)
+4. it is the sample of Get Descriptions output:
+![showing the descriptions](Screenshots/show-descriptions.png)
 5. run `gallery_agent.ipynb` add enter your query and select your desiered agent to show the results.
-
 
 
