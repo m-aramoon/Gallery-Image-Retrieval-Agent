@@ -1,9 +1,15 @@
 ﻿FROM python:latest
 
+# Install system dependencies (Git)
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends git && \
+    rm -rf /var/lib/apt/lists/*
+
+
 # Install JupyterLab and dependencies
-RUN pip install --no-cache-dir --upgrade pip jupyterlab requests pandas numpy pillow ipywidgets matplotlib
+RUN pip install --no-cache-dir --upgrade pip jupyterlab requests pandas numpy pillow ipywidgets matplotlib nbdime
 
-
+RUN nbdime config-git --enable --global
 
 # Expose JupyterLab port
 EXPOSE 8888
