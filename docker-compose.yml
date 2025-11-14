@@ -1,7 +1,7 @@
-version: '3.8'
+#version: '3.8'
 
 services:
-  gemma:
+  ollama:
     image: ollama/ollama:latest
     container_name: gemma
     restart: always
@@ -23,19 +23,41 @@ services:
     ports:
       - "8888:8888"
     volumes:
-      -  ./jupyter_volume:/home/notebooks  
+      -  ./jupyter_volume:/home/notebooks
+      -  ./huggingface_cache:/root/.cache/huggingface  
     environment:
       - JUPYTER_ENABLE_LAB=yes
+      - OLLAMA_HOST=http://ollama:11434
+      - QDRANT_HOST=http://qdrant:6333
     env_file: 
       - ./API.env
     networks:
       - ollama-net
     command: >
       jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token=''
+    depends_on:
+      - ollama
+      - qdrant
+
+  qdrant:
+    image: qdrant/qdrant
+    container_name: qdrant
+    restart: always
+    volumes:
+      - ./qdrant_storage:/qdrant/storage 
+    ports:
+      - "6333:6333"
+    # environment:
+    #   QDRANT__STORAGE__MAX_VECTOR_SIZE: 1000000
+    networks:
+      - ollama-net
 
 volumes:
   ollama_volume:
   jupyter_volume:
+  huggingface_cache:
+  qdrant_storage:
+
 
 networks:
   ollama-net:
