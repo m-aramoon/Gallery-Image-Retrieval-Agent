@@ -1,13 +1,19 @@
-﻿FROM python:latest
+﻿FROM python:3.13 
+# Python 3.14 does not yet support numbda which is required for umap)
 
-# Install system dependencies (Git)
+
+# Install Git and build tools, CMake, and pkg-config
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends git && \
+    apt-get install -y --no-install-recommends \
+    git \
+    build-essential \
+    cmake \
+    pkg-config && \
     rm -rf /var/lib/apt/lists/*
 
 
 # Install JupyterLab and dependencies
-RUN pip install --no-cache-dir --upgrade pip jupyterlab requests pandas numpy pillow ipywidgets matplotlib nbdime
+RUN pip install --no-cache-dir --upgrade pip jupyterlab requests pandas numpy pillow ipywidgets matplotlib nbdime transformers torch sentencepiece protobuf accelerate qdrant-client umap-learn
 
 RUN nbdime config-git --enable --global
 
@@ -15,7 +21,7 @@ RUN nbdime config-git --enable --global
 EXPOSE 8888
 
 # Set working directory
-#WORKDIR /home/jovyan
+#WORKDIR /home/...
 
 # Start JupyterLab
 CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]
